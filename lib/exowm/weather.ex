@@ -8,29 +8,35 @@ defmodule Exowm.Weather do
     get!(@endpoint, [], options ++ [ :q, "#{city},#{country_code}" ])
   end
 
-  @spec in_json([{atom, any}]) :: [{atom, any}]
-  def in_json(options \\ []) do
-    options ++ [{:mode, "json"}]
+
+
+  defp append_to(nil, key_value) do
+    [key_value]
   end
 
-  @spec in_xml([{atom, any}]) :: [{atom, any}]
-  def in_xml(options \\ []) do
-    options ++ [{:mode, "xml"}]
+  defp append_to(options, nil) do
+    options
   end
 
-  @spec in_html([{atom, any}]) :: [{atom, any}]
-  def in_html(options \\ []) do
-    options ++ [{:mode, "html"}]
+  defp append_to(options, key_value) do
+    options ++ [key_value]
   end
+
+  @spec in_json([{atom, any}]) :: {atom, any}
+  def in_json(options \\ []), do: append_to(options, {:mode, "json"})
+
+  @spec in_xml([{atom, any}]) :: {atom, any}
+  def in_xml(options \\ []), do: append_to(options, {:mode, "xml"})
+
+  @spec in_html([{atom, any}]) :: {atom, any}
+  def in_html(options \\ []), do: append_to(options, {:mode, "html"})
+
+
 
   @external_resource langs_file = Path.join(__DIR__, "langs.txt")
 
-  for line <- File.stream!(langs_file, [], :line) do
-    [name, abbrev] = line
-                     |> String.strip(?\n)
-                     |> String.split("=", parts: 2, trim: true)
-    def unquote(String.to_atom("in_" <> name))(options \\ []) do
-      options ++ [{:lang, unquote(abbrev)}]
-    end
-  end
+  File.stream!(langs_file, [], :line)
+  |> Stream.map(&String.strip(&1, ?\n))
+  |> Stream.map(&String.split(&1, "=", parts: 2, trim: true))
+  |> Enum.each(fn([name, abbrev]) -> def unquote(String.to_atom("in_" <> name))(options \\ []), do: append_to(options, {:lang, unquote(abbrev)}) end)
 end
