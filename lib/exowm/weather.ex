@@ -5,7 +5,7 @@ defmodule Exowm.Weather do
 
   @spec by_city_and_country_code(binary, binary, [{atom, any}]) :: {:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}
   def by_city_and_country_code(city, country_code, options \\ []) do
-    get!(@endpoint, [], options ++ [ :q, "#{city},#{country_code}" ])
+    get(@endpoint, [], options ++ [ :q, "#{city},#{country_code}" ])
   end
 
 
@@ -37,6 +37,7 @@ defmodule Exowm.Weather do
 
   File.stream!(langs_file, [], :line)
   |> Stream.map(&String.strip(&1, ?\n))
+  |> Stream.map(&String.strip/1)
   |> Stream.map(&String.split(&1, "=", parts: 2, trim: true))
   |> Enum.each(fn([name, abbrev]) -> def unquote(String.to_atom("in_" <> name))(options \\ []), do: append_to(options, {:lang, unquote(abbrev)}) end)
 end
