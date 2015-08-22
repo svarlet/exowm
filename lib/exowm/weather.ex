@@ -1,43 +1,19 @@
 defmodule Exowm.Weather do
   use HTTPoison.Base
 
-  @endpoint "http://api.openweathermap.org/data/2.5/weather"
+  @endpoint "http://api.openweathermap.org/data/2.5"
 
-  @spec by_city_and_country_code(binary, binary, [{atom, any}]) :: {:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}
-  def by_city_and_country_code(city, country_code, options \\ []) do
-    get(@endpoint, [], options ++ [ :q, "#{city},#{country_code}" ])
+  def weather_in(city, country_code, options \\ []) do
+    options_with_city = Keyword.put(options, :q, "#{city},#{country_code}")
+    get("/weather", [], [params: options_with_city])
   end
 
-
-
-  defp append_to(nil, key_value) do
-    [key_value]
+  def forecast_in(city, country_code, options \\ []) do
+    options_with_city = Keyword.put(options, :q, "#{city},#{country_code}")
+    get("/forecast", [], [params: options_with_city])
   end
 
-  defp append_to(options, nil) do
-    options
+  def process_url(url) do
+    @endpoint <> url
   end
-
-  defp append_to(options, key_value) do
-    options ++ [key_value]
-  end
-
-  @spec in_json([{atom, any}]) :: {atom, any}
-  def in_json(options \\ []), do: append_to(options, {:mode, "json"})
-
-  @spec in_xml([{atom, any}]) :: {atom, any}
-  def in_xml(options \\ []), do: append_to(options, {:mode, "xml"})
-
-  @spec in_html([{atom, any}]) :: {atom, any}
-  def in_html(options \\ []), do: append_to(options, {:mode, "html"})
-
-
-
-  @external_resource langs_file = Path.join(__DIR__, "langs.txt")
-
-  File.stream!(langs_file, [], :line)
-  |> Stream.map(&String.strip(&1, ?\n))
-  |> Stream.map(&String.strip/1)
-  |> Stream.map(&String.split(&1, "=", parts: 2, trim: true))
-  |> Enum.each(fn([name, abbrev]) -> def unquote(String.to_atom("in_" <> name))(options \\ []), do: append_to(options, {:lang, unquote(abbrev)}) end)
 end
