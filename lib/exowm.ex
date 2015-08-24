@@ -41,23 +41,23 @@ defmodule Exowm do
       |> Enum.reduce([], fn
         {k, v}, acc when k == "coord" ->
           Logger.debug("found coord")
-          [acc | {String.to_atom(k), %Coord{lon: v["lon"], lat: v["lat"]}}]
+          [{String.to_atom(k), %Coord{lon: v["lon"], lat: v["lat"]}} | acc]
         # {k, v}, acc when k == "weather" -> {String.to_atom(k), %Weather{id: v["id"], main: v["main"], description: v["description"], icon: v["icon"]}}
         {k, v}, acc when k == "main" ->
           Logger.debug("found main")
-          [acc | {String.to_atom(k), %Main{temp: v["temp"], pressure: v["pressure"], humidity: v["humidity"], temp_min: v["temp_min"], temp_max: v["temp_max"], sea_level: v["sea_level"], grnd_level: v["grnd_level"]}}]
+          [{String.to_atom(k), %Main{temp: v["temp"], pressure: v["pressure"], humidity: v["humidity"], temp_min: v["temp_min"], temp_max: v["temp_max"], sea_level: v["sea_level"], grnd_level: v["grnd_level"]}} | acc]
         {k, v}, acc when k == "wind" -> 
           Logger.debug("found wind")
-          [acc | {String.to_atom(k), %Wind{speed: v["speed"], deg: v["deg"]}}]
+          [{String.to_atom(k), %Wind{speed: v["speed"], deg: v["deg"]}} | acc]
         {k, v}, acc when k == "clouds" ->
           Logger.debug "found clouds"
-          [acc | {String.to_atom(k), %Clouds{all: v["all"]}}]
+          [{String.to_atom(k), %Clouds{all: v["all"]}} | acc]
         {k, v}, acc when k == "sys" ->
           Logger.debug "found sys"
-          [acc | {String.to_atom(k), %Sys{type: v["type"], id: v["id"], message: v["message"], country: v["country"], sunrise: v["sunrise"], sunset: v["sunset"]}}]
+          [{String.to_atom(k), %Sys{type: v["type"], id: v["id"], message: v["message"], country: v["country"], sunrise: v["sunrise"], sunset: v["sunset"]}} | acc]
         {k, v}, acc ->
-          Logger.debug "found #{k}"
-          [acc | {String.to_atom(k), v}]
+          Logger.debug "default matcher found #{k}"
+          [{String.to_atom(k), v} | acc]
       end)
     end
   end
