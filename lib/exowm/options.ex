@@ -20,6 +20,9 @@ defmodule Exowm.Options do
   |> Stream.map(&String.strip/1)
   |> Stream.map(&String.split(&1, "=", parts: 2, trim: true))
   |> Enum.each(fn([name, abbrev]) ->
+                 @doc """
+                   to_#{name} will add {:lang, #{abbrev}} to the provided Keyword.
+                 """
                  def unquote(String.to_atom("in_#{name}"))(options \\ []) do
                    Keyword.put(options, :lang, unquote(abbrev))
                  end

@@ -3,11 +3,14 @@ defmodule Exowm.Mixfile do
 
   def project do
     [app: :exowm,
-     version: "0.0.1",
-     elixir: "~> 1.0",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps]
+      version: "0.0.1",
+      elixir: "~> 1.0",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      name: Exowm,
+      source_url: "https://github.com/svarlet/exowm",
+      homepage_url: "https://github.com/svarlet/exowm",
+      deps: deps]
   end
 
   # Configuration for the OTP application
@@ -28,6 +31,8 @@ defmodule Exowm.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
+      {:earmark, "~> 0.1", only: :dev},
+      {:ex_doc, "~> 0.8", only: :dev},
       {:mix_test_watch, "~> 0.1.2", only: :dev},
       {:httpoison, "~> 0.7.2"},
       {:poison, "~> 1.4.0"}
