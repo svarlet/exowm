@@ -6,13 +6,13 @@ defmodule Exowm.Query do
   def weather_in(city, country_code, options \\ []) do
     options_with_city = Keyword.put(options, :q, "#{city},#{country_code}")
     %HTTPoison.Response{body: body} = get!("/weather", [], [params: options_with_city])
-    Exowm.Current.from body
+    Exowm.CurrentWeather.from body
   end
 
-  def forecast_in(city, country_code, options \\ []) do
-    options_with_city = Keyword.put(options, :q, "#{city},#{country_code}")
-    get!("/forecast", [], [params: options_with_city])
-  end
+  # def forecast_in(city, country_code, options \\ []) do
+  #   options_with_city = Keyword.put(options, :q, "#{city},#{country_code}")
+  #   get!("/forecast", [], [params: options_with_city])
+  # end
 
   def process_url(url) do
     @endpoint <> url
