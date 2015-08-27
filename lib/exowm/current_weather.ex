@@ -60,7 +60,7 @@ defmodule Exowm.CurrentWeather do
         %Exowm.CurrentWeather{acc | calculation_time: v}
       {k, v}, acc when k == "visibility" ->
         Logger.debug "found visility data"
-        %Exowm.CurrentWeather{acc | visility: v}
+        %Exowm.CurrentWeather{acc | visibility: v}
       {k, v}, acc ->
         Logger.warn "unexpected property: #{k}: #{inspect v}"
         acc
