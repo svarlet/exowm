@@ -1,13 +1,13 @@
 defmodule Exowm.CurrentWeather do
-  defstruct calculation_time: 0,
-            city_id: 0, city_name: "", country: "", lon: 0, lat: 0,
-            sunrise_utc: 0, sunset_utc: 0,
-            visibility: 0,
-            weather_category: "", weather_subcategory: "", weather_icon_url: "", weather_id: 0,
-            temperature: 0, pressure: 0, humidity: 0, temp_min: 0, temp_max: 0, sea_level: 0, grnd_level: 0,
-            wind_speed: 0, wind_degree: 0,
-            last_hour_snow_volume: 0, last_hour_rain_volume: 0,
-            cloudiness: 0
+  defstruct calculation_time: -1,
+            city_id: -1, city_name: "", country: "", lon: 0, lat: 0,
+            sunrise_utc: -1, sunset_utc: -1,
+            visibility: -1,
+            weather_category: "", weather_subcategory: "", weather_icon_url: "", weather_id: -1,
+            temperature: 0, pressure: -1, humidity: -1, temp_min: 0, temp_max: 0, sea_level: 0, grnd_level: 0,
+            wind_speed: -1, wind_degree: 0,
+            last_hour_snow_volume: -1, last_hour_rain_volume: -1,
+            cloudiness: -1
 
   @type t :: %Exowm.CurrentWeather{calculation_time: Integer,
                              city_id: Integer, city_name: binary, lon: Integer, lat: Integer,
