@@ -43,4 +43,39 @@ defmodule CurrentWeatherTest do
     result = CurrentWeather.from %{"coord" => %{"lon" => 42.42, "lat" => 43.43}}
     assert expected == result
   end
+
+  test "from/1 set the temperature field when it finds a \"main\" property in the parameter" do
+    result = CurrentWeather.from %{"main" => %{"temp" => 47}}
+    assert 47 == result.temperature
+  end
+
+  test "from/1 sets the pressure field when it finds a \"main\" property in the parameter" do
+    result = CurrentWeather.from %{"main" => %{"pressure" => 3}}
+    assert 3 == result.pressure
+  end
+
+  test "from/1 sets the humidity field when it finds a \"main\" property in the parameter" do
+    result = CurrentWeather.from %{"main" => %{"humidity" => 99}}
+    assert 99 == result.humidity
+  end
+
+  test "from/1 sets the temp_min field when it finds a \"main\" property in the parameter" do
+    result = CurrentWeather.from %{"main" => %{"temp_min" => 22}}
+    assert 22 == result.temp_min
+  end
+
+  test "from/1 sets the temp_max field when it finds a \"main\" property in the parameter" do
+    result = CurrentWeather.from %{"main" => %{"temp_max" => 45}}
+    assert 45 == result.temp_max
+  end
+
+  test "from/1 sets the sea_level field when it finds a \"main\" property in the parameter" do
+    result = CurrentWeather.from %{"main" => %{"sea_level" => 49}}
+    assert 49 == result.sea_level
+  end
+
+  test "from/1 sets the grnd_level field when it finds a \"main\" property in the parameter" do
+    result = CurrentWeather.from %{"main" => %{"grnd_level" => 23}}
+    assert 23 == result.grnd_level
+  end
 end
