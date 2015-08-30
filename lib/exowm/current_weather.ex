@@ -10,11 +10,11 @@ defmodule Exowm.CurrentWeather do
             cloudiness: -1
 
   @type t :: %Exowm.CurrentWeather{calculation_time: Integer,
-                             city_id: Integer, city_name: binary, lon: Integer, lat: Integer,
+                             city_id: Integer, city_name: binary, country: binary, lon: float, lat: float,
                              sunrise_utc: Integer, sunset_utc: Integer,
                              visibility: Integer,
                              weather_category: binary, weather_subcategory: binary, weather_icon_url: binary, weather_id: Integer,
-                             temperature: float, pressure: Integer, humidity: Integer,
+                             temperature: float, pressure: Integer, humidity: Integer, temp_min: Integer, temp_max: Integer, sea_level: Integer, grnd_level: Integer,
                              wind_speed: float, wind_degree: Integer,
                              last_hour_snow_volume: float, last_hour_rain_volume: float,
                              cloudiness: Integer}
