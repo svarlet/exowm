@@ -78,4 +78,11 @@ defmodule CurrentWeatherTest do
     result = CurrentWeather.from %{"main" => %{"grnd_level" => 23}}
     assert 23 == result.grnd_level
   end
+
+  defp create_map_from_property_chain(property_chain, value) do
+    property_chain
+    |> String.split(".")
+    |> Enum.reverse
+    |> Enum.reduce(value, fn (key, acc) -> Map.put(%{}, key, acc) end)
+  end
 end
