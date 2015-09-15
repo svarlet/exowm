@@ -45,41 +45,51 @@ defmodule CurrentWeatherTest do
   end
 
   test "from/1 set the temperature field when it finds a \"main\" property in the parameter" do
-    result = CurrentWeather.from %{"main" => %{"temp" => 47}}
+    result = to_map("main.temp", 47) |> CurrentWeather.from
     assert 47 == result.temperature
   end
 
   test "from/1 sets the pressure field when it finds a \"main\" property in the parameter" do
-    result = CurrentWeather.from %{"main" => %{"pressure" => 3}}
+    result = to_map("main.pressure", 3) |> CurrentWeather.from
     assert 3 == result.pressure
   end
 
   test "from/1 sets the humidity field when it finds a \"main\" property in the parameter" do
-    result = CurrentWeather.from %{"main" => %{"humidity" => 99}}
+    result = to_map("main.humidity", 99) |> CurrentWeather.from 
     assert 99 == result.humidity
   end
 
   test "from/1 sets the temp_min field when it finds a \"main\" property in the parameter" do
-    result = CurrentWeather.from %{"main" => %{"temp_min" => 22}}
+    result = to_map("main.temp_min", 22) |> CurrentWeather.from 
     assert 22 == result.temp_min
   end
 
   test "from/1 sets the temp_max field when it finds a \"main\" property in the parameter" do
-    result = CurrentWeather.from %{"main" => %{"temp_max" => 45}}
+    result = to_map("main.temp_max", 45) |> CurrentWeather.from 
     assert 45 == result.temp_max
   end
 
   test "from/1 sets the sea_level field when it finds a \"main\" property in the parameter" do
-    result = CurrentWeather.from %{"main" => %{"sea_level" => 49}}
+    result = to_map("main.sea_level", 49) |> CurrentWeather.from 
     assert 49 == result.sea_level
   end
 
   test "from/1 sets the grnd_level field when it finds a \"main\" property in the parameter" do
-    result = CurrentWeather.from %{"main" => %{"grnd_level" => 23}}
+    result = to_map("main.grnd_level", 23) |> CurrentWeather.from 
     assert 23 == result.grnd_level
   end
 
-  defp create_map_from_property_chain(property_chain, value) do
+  test "from/1 sets the wind_speed field when it finds a \"wind\" property in the parameter" do
+    result = to_map("wind.speed", 23) |> CurrentWeather.from
+    assert 23 == result.wind_speed
+  end
+
+  test "from/1 sets the wind_degree field when it finds a \"wind\" property in the parameter" do
+    result = to_map("wind.deg", 24) |> CurrentWeather.from
+    assert 24 == result.wind_degree
+  end
+
+  defp to_map(property_chain, value) do
     property_chain
     |> String.split(".")
     |> Enum.reverse
