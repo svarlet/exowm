@@ -25,41 +25,29 @@ defmodule Exowm.CurrentWeather do
     value
     |> Enum.reduce(%Exowm.CurrentWeather{}, fn
       {k, v}, acc when k == "coord" ->
-        Logger.debug("found coord")
         %Exowm.CurrentWeather{acc | lon: v["lon"], lat: v["lat"]}
       {k, v}, acc when k == "main" ->
-        Logger.debug("found main")
         %Exowm.CurrentWeather{acc | temperature: v["temp"], pressure: v["pressure"], humidity: v["humidity"], temp_min: v["temp_min"], temp_max: v["temp_max"], sea_level: v["sea_level"], grnd_level: v["grnd_level"]}
       {k, v}, acc when k == "wind" -> 
-        Logger.debug("found wind")
         %Exowm.CurrentWeather{acc | wind_speed: v["speed"], wind_degree: v["deg"]}
       {k, v}, acc when k == "clouds" ->
-        Logger.debug "found clouds"
         %Exowm.CurrentWeather{acc | cloudiness: v["all"]}
       {k, v}, acc when k == "sys" ->
-        Logger.debug "found sys"
         %Exowm.CurrentWeather{acc | country: v["country"], sunrise_utc: v["sunrise"], sunset_utc: v["sunset"]}
       {k, v}, acc when k == "weather" and is_list(v) ->
-        Logger.debug "found weather, will only keep the first item!"
         w = Enum.at(v, 0)
         %Exowm.CurrentWeather{acc | weather_id: w["id"], weather_category: w["main"], weather_subcategory: w["description"], weather_icon_url: w["icon"]}
       {k, v}, acc when k == "id" ->
-        Logger.debug "found city id"
         %Exowm.CurrentWeather{acc | city_id: v}
       {k, v}, acc when k == "name" ->
-        Logger.debug "found city name"
         %Exowm.CurrentWeather{acc | city_name: v}
       {k, v}, acc when k == "rain" ->
-        Logger.debug "found rain data"
         %Exowm.CurrentWeather{acc | last_hour_rain_volume: v["1h"]}
       {k, v}, acc when k == "snow" ->
-        Logger.debug "found snow data"
         %Exowm.CurrentWeather{acc | last_hour_snow_volume: v["1h"]}
       {k, v}, acc when k == "dt" ->
-        Logger.debug "found calculation time (utc)"
         %Exowm.CurrentWeather{acc | calculation_time: v}
       {k, v}, acc when k == "visibility" ->
-        Logger.debug "found visility data"
         %Exowm.CurrentWeather{acc | visibility: v}
       {k, v}, acc ->
         Logger.warn "unexpected property: #{k}: #{inspect v}"
