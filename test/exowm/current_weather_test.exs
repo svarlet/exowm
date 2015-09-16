@@ -1,7 +1,26 @@
 defmodule CurrentWeatherTest do
   use ExUnit.Case
+  require Logger
 
-  alias Exowm.CurrentWeather
+  alias Exowm.CurrentWeather 
+
+  defp to_map(property_chain, value) do
+    property_chain
+    |> String.split(".")
+    |> Enum.reverse
+    |> Enum.reduce(value, fn (key, acc) -> Map.put(%{}, key, acc) end)
+  end
+
+  %{"coord.lon" => "lon",
+    "coord.lat" => "lat",
+    "main.temp" => "temperature"}
+  |> Enum.each fn({input_key, output_key}) ->
+    test "from/1 maps the value associated to `#{input_key}` to `#{output_key}`" do
+      flunk "failed"
+      result = to_map(unquote(input_key), 42) |> CurrentWeather.from
+      assert 42 == Map.fetch!(result, String.to_atom unquote(output_key))
+    end
+  end
 
   test "It has valid default values" do
     default_struct = %CurrentWeather{}
@@ -33,66 +52,64 @@ defmodule CurrentWeatherTest do
       cloudiness: -1
     }
   end
-  
-  test "Given an empty map, from/1 returns a default CurrentWeather struct" do
-    assert %CurrentWeather{} == CurrentWeather.from %{}
-  end
 
-  test "from/1 sets the lon and lat fields when it finds a \"coord\" property in the parameter" do
-    expected = %CurrentWeather{lon: 42.42, lat: 43.43}
-    result = CurrentWeather.from %{"coord" => %{"lon" => 42.42, "lat" => 43.43}}
-    assert expected == result
-  end
+  # test "Given an empty map, from/1 returns a default CurrentWeather struct" do
+  #   assert %CurrentWeather{} == CurrentWeather.from %{}
+  # end
 
-  test "from/1 set the temperature field when it finds a \"main\" property in the parameter" do
-    result = to_map("main.temp", 47) |> CurrentWeather.from
-    assert 47 == result.temperature
-  end
+  # test "from/1 sets the lon and lat fields when it finds a \"coord\" property in the parameter" do
+  #   expected = %CurrentWeather{lon: 42.42, lat: 43.43}
+  #   result = CurrentWeather.from %{"coord" => %{"lon" => 42.42, "lat" => 43.43}}
+  #   assert expected == result
+  # end
 
-  test "from/1 sets the pressure field when it finds a \"main\" property in the parameter" do
-    result = to_map("main.pressure", 3) |> CurrentWeather.from
-    assert 3 == result.pressure
-  end
+  # test "from/1 set the temperature field when it finds a \"main\" property in the parameter" do
+  #   result = to_map("main.temp", 47) |> CurrentWeather.from
+  #   assert 47 == result.temperature
+  # end
 
-  test "from/1 sets the humidity field when it finds a \"main\" property in the parameter" do
-    result = to_map("main.humidity", 99) |> CurrentWeather.from 
-    assert 99 == result.humidity
-  end
+  # test "from/1 sets the pressure field when it finds a \"main\" property in the parameter" do
+  #   result = to_map("main.pressure", 3) |> CurrentWeather.from
+  #   assert 3 == result.pressure
+  # end
 
-  test "from/1 sets the temp_min field when it finds a \"main\" property in the parameter" do
-    result = to_map("main.temp_min", 22) |> CurrentWeather.from 
-    assert 22 == result.temp_min
-  end
+  # test "from/1 sets the humidity field when it finds a \"main\" property in the parameter" do
+  #   result = to_map("main.humidity", 99) |> CurrentWeather.from 
+  #   assert 99 == result.humidity
+  # end
 
-  test "from/1 sets the temp_max field when it finds a \"main\" property in the parameter" do
-    result = to_map("main.temp_max", 45) |> CurrentWeather.from 
-    assert 45 == result.temp_max
-  end
+  # test "from/1 sets the temp_min field when it finds a \"main\" property in the parameter" do
+  #   result = to_map("main.temp_min", 22) |> CurrentWeather.from 
+  #   assert 22 == result.temp_min
+  # end
 
-  test "from/1 sets the sea_level field when it finds a \"main\" property in the parameter" do
-    result = to_map("main.sea_level", 49) |> CurrentWeather.from 
-    assert 49 == result.sea_level
-  end
+  # test "from/1 sets the temp_max field when it finds a \"main\" property in the parameter" do
+  #   result = to_map("main.temp_max", 45) |> CurrentWeather.from 
+  #   assert 45 == result.temp_max
+  # end
 
-  test "from/1 sets the grnd_level field when it finds a \"main\" property in the parameter" do
-    result = to_map("main.grnd_level", 23) |> CurrentWeather.from 
-    assert 23 == result.grnd_level
-  end
+  # test "from/1 sets the sea_level field when it finds a \"main\" property in the parameter" do
+  #   result = to_map("main.sea_level", 49) |> CurrentWeather.from 
+  #   assert 49 == result.sea_level
+  # end
 
-  test "from/1 sets the wind_speed field when it finds a \"wind\" property in the parameter" do
-    result = to_map("wind.speed", 23) |> CurrentWeather.from
-    assert 23 == result.wind_speed
-  end
+  # test "from/1 sets the grnd_level field when it finds a \"main\" property in the parameter" do
+  #   result = to_map("main.grnd_level", 23) |> CurrentWeather.from 
+  #   assert 23 == result.grnd_level
+  # end
 
-  test "from/1 sets the wind_degree field when it finds a \"wind\" property in the parameter" do
-    result = to_map("wind.deg", 24) |> CurrentWeather.from
-    assert 24 == result.wind_degree
-  end
+  # test "from/1 sets the wind_speed field when it finds a \"wind\" property in the parameter" do
+  #   result = to_map("wind.speed", 23) |> CurrentWeather.from
+  #   assert 23 == result.wind_speed
+  # end
 
-  defp to_map(property_chain, value) do
-    property_chain
-    |> String.split(".")
-    |> Enum.reverse
-    |> Enum.reduce(value, fn (key, acc) -> Map.put(%{}, key, acc) end)
-  end
+  # test "from/1 sets the wind_degree field when it finds a \"wind\" property in the parameter" do
+  #   result = to_map("wind.deg", 24) |> CurrentWeather.from
+  #   assert 24 == result.wind_degree
+  # end
+
+  # test "from/1 sets the cloudiness field when it finds a \"clouds\" property in the parameter" do
+  #   result = to_map("clouds.all", 34) |> CurrentWeather.from
+  #   assert 34 == result.cloudiness
+  # end
 end
