@@ -69,4 +69,8 @@ defmodule CurrentWeatherTest do
       cloudiness: -1
     }
   end
+
+  test "To do: weather id, category, subcategory, description, icon_url" do 
+    flunk("not implemented yet")
+  end
 end
