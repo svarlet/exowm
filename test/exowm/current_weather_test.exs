@@ -39,7 +39,7 @@ defmodule CurrentWeatherTest do
     end
   end
 
-  test "It has valid default values" do
+  test "CurrentWeather's struct has valid default values" do
     default_struct = %CurrentWeather{}
     assert default_struct == %CurrentWeather{
       calculation_time: -1,
@@ -70,7 +70,20 @@ defmodule CurrentWeatherTest do
     }
   end
 
-  test "To do: weather id, category, subcategory, description, icon_url" do 
-    flunk("not implemented yet")
+  test "from/1 sets the weather attributes when it finds a list containing them under a `weather` key in the input param" do
+    input = %{"weather" =>
+      [%{
+        "id" => 42,
+        "main" => 43,
+        "description" => 44,
+        "icon" => 45
+      }]
+    }
+    result = CurrentWeather.from input
+    assert result.weather_id == 42
+    assert result.weather_category == 43
+    assert result.weather_subcategory == 44
+    assert result.weather_icon_url == 45
   end
 end
+

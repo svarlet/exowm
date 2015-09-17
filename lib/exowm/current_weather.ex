@@ -1,4 +1,6 @@
 defmodule Exowm.CurrentWeather do
+  require Logger
+
   defstruct calculation_time: -1,
             city_id: -1, city_name: "", country: "", lon: 0, lat: 0,
             sunrise_utc: -1, sunset_utc: -1,
@@ -18,8 +20,6 @@ defmodule Exowm.CurrentWeather do
                              wind_speed: float, wind_degree: Integer,
                              last_hour_snow_volume: float, last_hour_rain_volume: float,
                              cloudiness: Integer}
-
-  require Logger
 
   def from(value) when is_map(value) do
     value
