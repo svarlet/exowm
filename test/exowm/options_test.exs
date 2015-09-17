@@ -8,12 +8,6 @@ defmodule Exowm.OptionsTest do
     assert expected == actual
   end
 
-  test "supports json/html/xml formats" do
-    added? Exowm.Options, :in_json, {:mode, "json"}
-    added? Exowm.Options, :in_xml, {:mode, "xml"}
-    added? Exowm.Options, :in_html, {:mode, "html"}
-  end
-
   test "supports standard, imperial and metric units" do
     added? Exowm.Options, :in_metric_units, {:units, "metric"}
     added? Exowm.Options, :in_imperial_units, {:units, "imperial"}
