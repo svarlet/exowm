@@ -25,6 +25,10 @@ defmodule Exowm.Query do
     Keyword.put(options, :q, "#{city},#{country_code}")
   end
 
+  def api_url do
+    @url
+  end
+
   def url_for(endpoint) do
     @url <> endpoint
   end
