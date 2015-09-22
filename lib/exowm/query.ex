@@ -4,10 +4,19 @@ defmodule Exowm.Query do
   @endpoint "http://api.openweathermap.org/data/2.5"
 
   def weather_in(city, country_code, options \\ []) do
-    in_json = Exown.Options.in_json options
-    options_with_city = Keyword.put(in_json, :q, "#{city},#{country_code}")
-    %HTTPoison.Response{body: body} = get!("/weather", [], [params: options_with_city])
+    params = options
+             |> enforce_json
+             |> specify_location(city, country_code)
+    %HTTPoison.Response{body: body} = get!("/weather", [], [params: params])
     Exowm.CurrentWeather.from body
+  end
+
+  defp enforce_json(options) do
+    Keyword.put(options, :mode, "json")
+  end
+
+  defp specify_location(options, city, country_code) do
+    Keyword.put(options, :q, "#{city},#{country_code}")
   end
 
   # def forecast_in(city, country_code, options \\ []) do
