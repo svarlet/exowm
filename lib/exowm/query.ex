@@ -19,11 +19,6 @@ defmodule Exowm.Query do
     Keyword.put(options, :q, "#{city},#{country_code}")
   end
 
-  # def forecast_in(city, country_code, options \\ []) do
-  #   options_with_city = Keyword.put(options, :q, "#{city},#{country_code}")
-  #   get!("/forecast", [], [params: options_with_city])
-  # end
-
   def process_url(url) do
     @endpoint <> url
   end
