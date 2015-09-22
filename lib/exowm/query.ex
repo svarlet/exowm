@@ -4,11 +4,17 @@ defmodule Exowm.Query do
   @url "http://api.openweathermap.org/data/2.5"
 
   def weather_in(city, country_code, options \\ [], http_module \\ HTTPoison) do
-    params = options
-             |> enforce_json
-             |> specify_location(city, country_code)
-    %HTTPoison.Response{body: body} = http_module.get!("/weather", [], [params: params])
-    Exowm.CurrentWeather.from body
+    params = build_request_params(options, city, country_code)
+    url_for("/weather")
+    |> http_module.get!([], [params: params])
+    |> Map.get(:body)
+    |> Exowm.CurrentWeather.from
+  end
+
+  defp build_request_params(options, city, country_code) do
+    options
+    |> enforce_json
+    |> specify_location(city, country_code)
   end
 
   defp enforce_json(options) do
@@ -19,12 +25,7 @@ defmodule Exowm.Query do
     Keyword.put(options, :q, "#{city},#{country_code}")
   end
 
-  def url_of(endpoint) do
+  def url_for(endpoint) do
     @url <> endpoint
-  end
-
-  def process_response_body(body) do
-    body
-    |> Poison.Parser.parse!
   end
 end
