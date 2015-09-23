@@ -24,4 +24,12 @@ defmodule Exowm.QueryTest do
     assert_received {:get!, _, _, params: params}
     assert {:mode, "json"} == List.keyfind(params, :mode, 0)
   end
+
+  test "weather_in injects the provided parameters into the request parameters" do
+    options = Exowm.Options.in_dutch
+    |> Exowm.Options.in_imperial_units
+    Exowm.Query.weather_in "london", "uk", options, Exowm.HttpSpy
+    assert_received {:get!, _, _, params: params}
+    assert {:units, "imperial"} == List.keyfind(params, :units, 0)
+  end
 end
