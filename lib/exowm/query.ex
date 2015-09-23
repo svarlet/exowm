@@ -8,6 +8,7 @@ defmodule Exowm.Query do
     url_for("/weather")
     |> http_module.get!([], [params: params])
     |> Map.get(:body)
+    |> Poison.Parser.parse!
     |> Exowm.CurrentWeather.parse
   end
 
