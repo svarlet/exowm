@@ -21,7 +21,7 @@ defmodule Exowm.CurrentWeather do
                              last_hour_snow_volume: float, last_hour_rain_volume: float,
                              cloudiness: Integer}
 
-  def from(value) when is_map(value) do
+  def parse(value) when is_map(value) do
     value
     |> Enum.reduce(%Exowm.CurrentWeather{}, fn
       {k, v}, acc when k == "coord" ->
@@ -55,4 +55,3 @@ defmodule Exowm.CurrentWeather do
     end)
   end
 end
-

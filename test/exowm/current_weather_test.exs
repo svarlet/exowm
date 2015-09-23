@@ -33,8 +33,8 @@ defmodule CurrentWeatherTest do
     "dt" => "calculation_time",
     "visibility" => "visibility"}
   |> Enum.each fn({input_key, output_key}) ->
-    test "from/1 maps `#{input_key}` to `#{output_key}`" do
-      result = to_map(unquote(input_key), 42) |> CurrentWeather.from
+    test "parse/1 maps `#{input_key}` to `#{output_key}`" do
+      result = to_map(unquote(input_key), 42) |> CurrentWeather.parse
       assert 42 == Map.fetch!(result, String.to_atom unquote(output_key))
     end
   end
@@ -70,7 +70,7 @@ defmodule CurrentWeatherTest do
     }
   end
 
-  test "from/1 sets the weather attributes when it finds a list containing them under a `weather` key in the input param" do
+  test "parse/1 sets the weather attributes when it finds a list containing them under a `weather` key in the input param" do
     input = %{"weather" =>
       [%{
         "id" => 42,
@@ -79,7 +79,7 @@ defmodule CurrentWeatherTest do
         "icon" => 45
       }]
     }
-    result = CurrentWeather.from input
+    result = CurrentWeather.parse input
     assert result.weather_id == 42
     assert result.weather_category == 43
     assert result.weather_subcategory == 44

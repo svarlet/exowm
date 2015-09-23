@@ -8,7 +8,7 @@ defmodule Exowm.Query do
     url_for("/weather")
     |> http_module.get!([], [params: params])
     |> Map.get(:body)
-    |> Exowm.CurrentWeather.from
+    |> Exowm.CurrentWeather.parse
   end
 
   defp build_request_params(options, city, country_code) do
