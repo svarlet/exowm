@@ -8,11 +8,11 @@ defmodule Exowm.Options do
       [{:lang,"fr"}]
 
       iex> Exowm.Options.in_metric_units [{:key, "value"}]
-      [{:key,"value"}, {:units, "metric"}]
+      [{:units, "metric"}, {:key,"value"}]
 
       iex> Exowm.Options.in_english
       ...> |> Exowm.Options.in_imperial_units
-      [{:lang,"en"}, {:units, "imperial"}]
+      [{:units, "imperial"}, {:lang,"en"}]
   """
 
   @doc """
