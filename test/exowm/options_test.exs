@@ -1,6 +1,8 @@
 defmodule Exowm.OptionsTest do
   use ExUnit.Case
 
+  doctest Exowm.Options
+
   defp added?(module, func, kv) do
     assert [kv] == apply(module, func, [ [] ])
     expected = Keyword.merge [key: "value"], [kv]
