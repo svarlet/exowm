@@ -38,16 +38,19 @@ defmodule Exowm.Query do
     |> Exowm.CurrentWeather.parse
   end
 
+  @spec build_request_params([{atom,binary}], binary, binary) :: [{atom,binary}, ...]
   defp build_request_params(options, city, country_code) do
     options
     |> enforce_json
     |> specify_location(city, country_code)
   end
 
+  @spec enforce_json([{atom,binary}]) :: [{atom,binary}, ...]
   defp enforce_json(options) do
     Keyword.put(options, :mode, "json")
   end
 
+  @spec specify_location([{atom,binary}], binary, binary) :: [{atom,binary}, ...]
   defp specify_location(options, city, country_code) do
     Keyword.put(options, :q, "#{city},#{country_code}")
   end
