@@ -1,6 +1,11 @@
 defmodule Exowm.CurrentWeather do
   require Logger
 
+  @moduledoc """
+  This module defines a data structure and implements a parser to represent the
+  values returned by the API.
+  """
+
   defstruct calculation_time: -1,
             city_id: -1, city_name: "", country: "", lon: 0, lat: 0,
             sunrise_utc: -1, sunset_utc: -1,
@@ -21,6 +26,12 @@ defmodule Exowm.CurrentWeather do
                              last_hour_snow_volume: float, last_hour_rain_volume: float,
                              cloudiness: Integer}
 
+  @doc """
+  This function transforms a map into a CurrentWeather struct.
+
+  The provided map should be decoded from the JSON returned by the API.
+  """
+  @spec parse(Map) :: t
   def parse(value) when is_map(value) do
     value
     |> Enum.reduce(%Exowm.CurrentWeather{}, fn

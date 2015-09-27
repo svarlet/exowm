@@ -46,7 +46,7 @@ defmodule Exowm.Options do
      @doc """
      Appends {:lang, "#{abbrev}"} to the provided options in order to get results in #{name}.
      """
-     @spec unquote(String.to_atom("in_#{name}"))([{atom,binary}]) :: [{atom,binary}]
+     @spec unquote(String.to_atom("in_#{name}"))([{atom,binary}]) :: [{atom,binary}, ...]
      def unquote(String.to_atom("in_#{name}"))(options \\ []) do
        Keyword.put(options, :lang, unquote(abbrev))
      end
