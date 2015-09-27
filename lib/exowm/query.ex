@@ -41,8 +41,14 @@ defmodule Exowm.Query do
   @spec build_request_params([{atom,binary}], binary, binary) :: [{atom,binary}, ...]
   defp build_request_params(options, city, country_code) do
     options
+    |> inject_api_key
     |> enforce_json
     |> specify_location(city, country_code)
+  end
+
+  @spec inject_api_key([{atom, binary}]) :: [{atom, binary}, ...]
+  defp inject_api_key(options) do
+    Keyword.put(options, :APPID, Application.get_env(:exowm, :APPID))
   end
 
   @spec enforce_json([{atom,binary}]) :: [{atom,binary}, ...]

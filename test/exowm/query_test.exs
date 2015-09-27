@@ -32,4 +32,11 @@ defmodule Exowm.QueryTest do
     assert_received {:get!, _, _, params: params}
     assert {:units, "imperial"} == List.keyfind(params, :units, 0)
   end
+
+  test "weather_in reads the EXOWM_API_KEY from the config into the request parameters" do
+    Exowm.Query.weather_in "london", "uk", [], Exowm.HttpSpy
+    assert_received {:get!, _, _, params: params}
+    assert {:APPID, Application.get_env(:exowm, :APPID)} == List.keyfind(params, :APPID, 0)
+  end
+
 end
