@@ -1,6 +1,5 @@
 defmodule CurrentWeatherTest do
   use ExUnit.Case
-  require Logger
 
   alias Exowm.CurrentWeather
 
