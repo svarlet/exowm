@@ -9,6 +9,11 @@ defmodule CurrentWeatherTest do
     |> String.split(".")
     |> Enum.reverse
     |> Enum.reduce(value, fn (key, acc) -> Map.put(%{}, key, acc) end)
+    |> inject_dummy_weather_data
+  end
+
+  defp inject_dummy_weather_data(a_map) do
+    Map.put(a_map, "weather", [%{"id" => 0, "main" => "", "description" => "", "icon" => ""}])
   end
 
   %{"coord.lon" => "lon",
