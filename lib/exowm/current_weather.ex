@@ -1,5 +1,6 @@
 defmodule Exowm.CurrentWeather do
   require Logger
+  alias Exowm.CurrentWeather
 
   @moduledoc """
   This module defines a data structure and implements a parser to represent the
@@ -16,7 +17,7 @@ defmodule Exowm.CurrentWeather do
             last_hour_snow_volume: -1, last_hour_rain_volume: -1,
             cloudiness: -1
 
-  @type t :: %Exowm.CurrentWeather{calculation_time: Integer,
+  @type t :: %CurrentWeather{calculation_time: Integer,
                              city_id: Integer, city_name: binary, country: binary, lon: float, lat: float,
                              sunrise_utc: Integer, sunset_utc: Integer,
                              visibility: Integer,
@@ -28,68 +29,68 @@ defmodule Exowm.CurrentWeather do
 
   @spec read_latlon(t, Map) :: t
   defp read_latlon(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | lon: from["coord"]["lon"], lat: from["coord"]["lat"]}
+    %CurrentWeather{current_weather | lon: from["coord"]["lon"], lat: from["coord"]["lat"]}
   end
 
   @spec read_temperature(t, Map) :: t
   defp read_temperature(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | temperature: from["main"]["temp"]}
+    %CurrentWeather{current_weather | temperature: from["main"]["temp"]}
   end
 
   @spec read_pressure(t, Map) :: t
   defp read_pressure(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | pressure: from["main"]["pressure"]}
+    %CurrentWeather{current_weather | pressure: from["main"]["pressure"]}
   end
 
   @spec read_humidity(t, Map) :: t
   defp read_humidity(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | humidity: from["main"]["humidity"]}
+    %CurrentWeather{current_weather | humidity: from["main"]["humidity"]}
   end
 
   @spec read_temp_min(t, Map) :: t
   defp read_temp_min(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | temp_min: from["main"]["temp_min"]}
+    %CurrentWeather{current_weather | temp_min: from["main"]["temp_min"]}
   end
 
   @spec read_temp_max(t, Map) :: t
   defp read_temp_max(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | temp_max: from["main"]["temp_max"]}
+    %CurrentWeather{current_weather | temp_max: from["main"]["temp_max"]}
   end
 
   @spec read_sea_level(t, Map) :: t
   defp read_sea_level(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | sea_level: from["main"]["sea_level"]}
+    %CurrentWeather{current_weather | sea_level: from["main"]["sea_level"]}
   end
 
   @spec read_grnd_level(t, Map) :: t
   defp read_grnd_level(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | grnd_level: from["main"]["grnd_level"]}
+    %CurrentWeather{current_weather | grnd_level: from["main"]["grnd_level"]}
   end
 
   @spec read_wind(t, Map) :: t
   defp read_wind(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | wind_speed: from["wind"]["speed"], wind_degree: from["wind"]["deg"]}
+    %CurrentWeather{current_weather | wind_speed: from["wind"]["speed"], wind_degree: from["wind"]["deg"]}
   end
 
   @spec read_cloudiness(t, Map) :: t
   defp read_cloudiness(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | cloudiness: from["clouds"]["all"]}
+    %CurrentWeather{current_weather | cloudiness: from["clouds"]["all"]}
   end
 
   @spec read_country(t, Map) :: t
   defp read_country(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | country: from["sys"]["country"]}
+    %CurrentWeather{current_weather | country: from["sys"]["country"]}
   end
 
   @spec read_sunrise_and_sunset(t, Map) :: t
   defp read_sunrise_and_sunset(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | sunrise_utc: from["sys"]["sunrise"], sunset_utc: from["sys"]["sunset"]}
+    %CurrentWeather{current_weather | sunrise_utc: from["sys"]["sunrise"], sunset_utc: from["sys"]["sunset"]}
   end
 
   @spec read_weather(t, Map) :: t
   defp read_weather(current_weather, from) do
     weather = Enum.at(from["weather"], 0)
-    %Exowm.CurrentWeather{current_weather |
+    %CurrentWeather{current_weather |
                           weather_id: weather["id"],
                           weather_category: weather["main"],
                           weather_subcategory: weather["description"],
@@ -98,27 +99,27 @@ defmodule Exowm.CurrentWeather do
 
   @spec read_city(t, Map) :: t
   defp read_city(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | city_id: from["id"], city_name: from["name"]}
+    %CurrentWeather{current_weather | city_id: from["id"], city_name: from["name"]}
   end
 
   @spec read_rain(t, Map) :: t
   defp read_rain(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | last_hour_rain_volume: from["rain"]["1h"]}
+    %CurrentWeather{current_weather | last_hour_rain_volume: from["rain"]["1h"]}
   end
 
   @spec read_snow(t, Map) :: t
   defp read_snow(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | last_hour_snow_volume: from["snow"]["1h"]}
+    %CurrentWeather{current_weather | last_hour_snow_volume: from["snow"]["1h"]}
   end
 
   @spec read_time(t, Map) :: t
   defp read_time(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | calculation_time: from["dt"]}
+    %CurrentWeather{current_weather | calculation_time: from["dt"]}
   end
 
   @spec read_visibility(t, Map) :: t
   defp read_visibility(current_weather, from) do
-    %Exowm.CurrentWeather{current_weather | visibility: from["visibility"]}
+    %CurrentWeather{current_weather | visibility: from["visibility"]}
   end
 
   @doc """
@@ -128,7 +129,7 @@ defmodule Exowm.CurrentWeather do
   """
   @spec parse(Map) :: t
   def parse(data) do
-    %Exowm.CurrentWeather{}
+    %CurrentWeather{}
     |> read_latlon(data)
     |> read_temperature(data)
     |> read_pressure(data)
