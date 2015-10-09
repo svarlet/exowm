@@ -1,0 +1,172 @@
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <title>Exowm.Query – Elixir.Exowm v0.0.1</title>
+      
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.9.0">
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,300,700,900|Merriweather:300italic,300,700,700italic|Inconsolata:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="dist/app.css" />
+    <script src="dist/sidebar_items.js"></script>
+  </head>
+  <body>
+
+    
+    <div class="main">
+<button class="sidebar-toggle">
+  <i class="fa fa-bars"></i>
+</button>
+<section class="sidebar">
+  <button class="sidebar-toggle">
+    <i class="fa fa-bars"></i>
+  </button>
+
+  
+    <a href="https://github.com/svarlet/exowm" class="sidebar-projectLink">
+      <div class="sidebar-projectDetails">
+        <h1 class="sidebar-projectName">
+          Elixir.Exowm
+        </h1>
+        <h2 class="sidebar-projectVersion">
+          v0.0.1
+        </h2>
+      </div>
+      
+    </a>
+  
+
+  <div class="sidebar-search">
+    <i class="fa fa-search"></i>
+    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" results="0" />
+  </div>
+
+  <ul class="sidebar-mainNav">
+    
+
+    <li><a href="overview.html">Overview</a></li>
+  </ul>
+
+  <ul class="sidebar-listNav">
+    
+      <li><a id="modules_list" href="#full_list">Modules</a></li>
+    
+
+    
+      <li role="presentation" class="disabled">Exceptions</li>
+    
+
+    
+      <li role="presentation" class="disabled">Protocols</li>
+    
+  </ul>
+
+  <ul id="full_list" class="sidebar-fullList"></ul>
+  <div class="sidebar-noResults"></div>
+</section>
+
+<section id="content" class="content">
+  <div class="content-inner">
+
+
+      <h1>
+        Exowm.Query
+        
+        
+          <a href="https://github.com/svarlet/exowm/blob/master/lib/exowm/query.ex#L1" title="View Source" class="view-source" rel="help">
+            <i class="fa fa-code"></i>
+          </a>
+        
+      </h1>
+
+      
+        <section id="moduledoc" class="docstring">
+          <p>This module provides functions to query the <a href="http://openweathermap.org/current">OpenWeatherMap “Current”
+API</a></p>
+
+        </section>
+      
+
+      
+        <section id="summary_details" class="details-list">
+          <h1 id="summary" class="section-heading">Summary</h1>
+          <div class="summary">
+            <div class="summary-row">
+  <div class="summary-signature"><a href="#weather_in/4">weather_in(city, country_code, options \\ [], http_module \\ HTTPoison)</a></div>
+  
+    <div class="summary-synopsis"><p>The weather_in function requests the current weather for a location specified
+by a city name and its country code</p>
+</div>
+  
+</div>
+
+          </div>
+        </section>
+      
+
+      
+
+      
+        <section id="functions_details" class="details-list">
+          <h1 class="section-heading">Functions</h1>
+          <div class="detail">
+  <div class="detail-header" id="weather_in/4">
+    <a href="#weather_in/4" class="detail-link" title="Link to this function">
+      <i class="fa fa-link"></i>
+    </a>
+    <span class="signature">weather_in(city, country_code, options \\ [], http_module \\ HTTPoison)</span>
+      
+      <a href="https://github.com/svarlet/exowm/blob/master/lib/exowm/query.ex#L32" class="view-source" rel="help" title="View Source">
+       <i class="fa fa-code"></i>
+     </a>
+    
+  </div>
+  
+  <section class="docstring">
+    <p>The weather_in function requests the current weather for a location specified
+by a city name and its country code.</p>
+<p>It takes an optional third parameter to specify request parameters such as
+the lang or the units system. It is recommended to build this list of
+parameters with the Exowm.Options module.</p>
+<h2>Example</h2>
+<pre><code class="iex elixir">iex&gt; opts = Exowm.Options.in_french |&gt; Exowm.Options.in_metric_units
+[units: &quot;metric&quot;, lang: &quot;fr&quot;]
+iex&gt; Exowm.Query.weather_in &quot;london&quot;, &quot;uk&quot;, opts
+%Exowm.CurrentWeather{calculation_time: 1443268529, city_id: 2643743,
+city_name: &quot;London&quot;, cloudiness: 40, country: &quot;GB&quot;, grnd_level: nil,
+humidity: 51, last_hour_rain_volume: -1, last_hour_snow_volume: -1, lat: 51.51,
+lon: -0.13, pressure: 1029, sea_level: nil, sunrise_utc: 1443246791,
+sunset_utc: 1443289766, temp_max: 18.33, temp_min: 14, temperature: 16.08,
+visibility: 10000, weather_category: &quot;Clouds&quot;, weather_icon_url: &quot;03d&quot;,
+weather_id: 802, weather_subcategory: &quot;partiellement ensoleillé&quot;,
+wind_degree: 20, wind_speed: 3.1}</code></pre>
+
+  </section>
+</div>
+
+        </section>
+      
+
+      
+
+      
+        <footer class="footer">
+      <p>
+        Designed by
+        <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>
+        and the
+        <a href="https://github.com/elixir-lang/ex_doc/graphs/contributors" target="_blank">ExDoc team</a>.
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.9.0).
+      </p>
+    </footer>
+  </div>
+</section>
+</div>
+    <script src="dist/app.js"></script>
+  </body>
+</html>
+
