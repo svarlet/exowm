@@ -1,6 +1,4 @@
 defmodule Exowm.Query do
-  use GenServer
-
   @moduledoc """
   This module provides functions to query the [OpenWeatherMap "Current"
   API](http://openweathermap.org/current)
@@ -32,7 +30,12 @@ defmodule Exowm.Query do
   """
   @spec weather_in(binary, binary, [{atom, binary}]) :: Exowm.CurrentWeather.t
   def weather_in(city, country_code, options \\ [], http_module \\ HTTPoison) do
-    GenServer.call(__MODULE__, {:weather_in, city, country_code, options, http_module}, 5000)
+    params = build_request_params(options, city, country_code)
+    url_for("/weather")
+    |> http_module.get!([], [params: params])
+    |> Map.get(:body)
+    |> Poison.Parser.parse!
+    |> Exowm.CurrentWeather.parse
   end
 
   @spec build_request_params([{atom,binary}], binary, binary) :: [{atom,binary}, ...]
@@ -61,21 +64,5 @@ defmodule Exowm.Query do
   @doc false
   def url_for(endpoint) do
     @url <> endpoint
-  end
-
-  # Server implementation
-
-  def start_link() do
-    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
-  end
-
-  def handle_call({:weather_in, city, country_code, options, http_module}, _from, _state) do
-    params = build_request_params(options, city, country_code)
-    response = url_for("/weather")
-    |> http_module.get!([], [params: params])
-    |> Map.get(:body)
-    |> Poison.Parser.parse!
-    |> Exowm.CurrentWeather.parse
-    {:reply, response, nil}
   end
 end
