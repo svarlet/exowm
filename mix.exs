@@ -34,8 +34,8 @@ defmodule Exowm.Mixfile do
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.8", only: :dev},
       {:mix_test_watch, "~> 0.1.2", only: :dev},
-      {:httpoison, "~> 0.7.2"},
-      {:poison, "~> 1.4.0"}
+      {:httpoison, "~> 0.11.1"},
+      {:poison, "~> 3.0.0"}
     ]
   end
 end
